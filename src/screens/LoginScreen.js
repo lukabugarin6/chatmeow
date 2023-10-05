@@ -5,6 +5,7 @@ import Wrapper from "../components/Wrapper";
 import Overlay from "../components/Overlay";
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import LoadingScreen from "./LoadingScreen";
 
 function LoginScreen() {
   const [user, userLoading] = useAuthState(auth);
@@ -14,7 +15,7 @@ function LoginScreen() {
   const navigate = useNavigate();
 
   if (userLoading) {
-    return <div>loading...</div>
+    return <LoadingScreen />
   }
 
   if (user) {

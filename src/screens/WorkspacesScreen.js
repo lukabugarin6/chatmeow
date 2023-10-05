@@ -7,14 +7,17 @@ import WorkspaceItem from "../components/WorkspaceItem";
 import styled from "styled-components";
 import Button from "../components/Button";
 import { useWorkspace } from "../hooks/useWorkspace";
+import { useNavigate } from "react-router-dom";
 
 function WorkspacesScreen({ doc }) {
+  const navigate = useNavigate();
+
   // user
   const [user, loadingState] = useAuthState(auth);
   const firstName = user.displayName.split(" ")[0];
 
   // workspaces
-  const { adminsWorkspaces, addWorkspace, membersWorkspaces, adminsWorkspacesLoading } = useWorkspace();
+  const { adminsWorkspaces, membersWorkspaces } = useWorkspace();
 
   return (
     <Wrapper bgImg="/images/chatmeowbg2.png">
@@ -24,14 +27,19 @@ function WorkspacesScreen({ doc }) {
         subheading={(adminsWorkspaces?.docs.length > 0 || membersWorkspaces?.docs.length > 0) && "Here are your available workspaces"}
       >
         <WorkspacesWrapper>
-          {adminsWorkspaces?.docs.map((doc) => (
-            <WorkspaceItem key={doc.id} name={doc.data().name} members={'2 members'} />
-          ))}
+          {adminsWorkspaces?.docs.map((doc) => {
+            console.log(doc.data());
+            return (
+              <WorkspaceItem key={doc.id} onClick={() => navigate(`/${doc.id}`)} name={doc.data().name} />
+            )
+          })}
           {membersWorkspaces?.docs.map((doc) => (
-            <WorkspaceItem key={doc.id} name={doc.data().name} members={'2 members'} />
+            <WorkspaceItem key={doc.id} onClick={() => navigate(`/${doc.id}`)} name={doc.data().name} />
           ))}
         </WorkspacesWrapper>
-        <Button onClick={addWorkspace}>
+        <Button onClick={() => {
+          navigate('/create-new')
+        }}>
           Create new workspace
         </Button>
       </Overlay>

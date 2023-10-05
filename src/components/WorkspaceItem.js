@@ -1,16 +1,14 @@
 import styled from "styled-components";
 
-function WorkspaceItem({ name, members, style }) {
+function WorkspaceItem({ name, members, style, onClick }) {
   return (
-    <Wrapper style={style}>
+    <Wrapper style={style} onClick={onClick}>
       <TextWrapper>
         <WorkspaceName>{name}</WorkspaceName>
         {members && <WorkspaceMembers>{members}</WorkspaceMembers>}
       </TextWrapper>
       <ChevronWrapper>
-        <ChevronText>
-          Open
-        </ChevronText>
+        <ChevronText>Open</ChevronText>
         <svg
           width="40"
           height="40"
@@ -28,29 +26,30 @@ function WorkspaceItem({ name, members, style }) {
   );
 }
 
-
 const ChevronWrapper = styled.div`
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translate(0, -50%);
-  transition: transform .2s ease-in-out;
+  transition: transform 0.2s ease-in-out;
   display: flex;
   align-items: center;
 `;
 
 const ChevronText = styled.span`
   opacity: 0;
-  transition: opacity .25s ease-in-out;
-`
+  transition: opacity 0.25s ease-in-out;
+`;
 
 const Wrapper = styled.div`
   background-color: #fff;
+  display: flex;
+  align-items: center;
   border-radius: 6px;
   padding: 12px 24px;
   width: 100%;
   position: relative;
-  min-height: 75px;
+  min-height: 70px;
   margin-top: 6px;
   cursor: pointer;
   &:hover ${ChevronWrapper} {

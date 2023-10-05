@@ -71,16 +71,16 @@ function Header() {
     }
   }
 
-  const addWorkspace = () => {
-    const workspaceName = prompt("please enter the workspace name");
+  // const addWorkspace = () => {
+  //   const workspaceName = prompt("please enter the workspace name");
 
-    if (workspaceName) {
-      db.collection("workspaces").add({
-        name: workspaceName,
-        admin: user.uid,
-      });
-    }
-  };
+  //   if (workspaceName) {
+  //     db.collection("workspaces").add({
+  //       name: workspaceName,
+  //       admin: user.uid,
+  //     });
+  //   }
+  // };
 
   const addRoom = () => {
     const channelName = prompt("please enter the chanel name");
@@ -140,7 +140,7 @@ function Header() {
       ) : (
         <div>
           <h2>Workspaces</h2>
-          <button onClick={addWorkspace}>Add Workspace</button>
+          {/* <button onClick={addWorkspace}>Add Workspace</button> */}
           {workspaces?.docs.map((doc) => (
             <Link to={doc.id} key={doc.id} onClick={() => {
               selectWorkspace(doc.id);

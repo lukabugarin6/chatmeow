@@ -16,21 +16,26 @@ export const useWorkspace = (workspaceId) => {
       user && db.collection("workspaces").where("admin", "==", user.uid)
     );
 
-  const loggedInUserId = loggedUserDetails?.docs[0].id;
+    const [adminsWorkspacesMembers, adminsWorkspacesLoadingMembers, adminsWorkspacesErrorMembers] =
+    useCollection(
+      user && db.collection("workspaces").where("admin", "==", user.uid)
+    );
+
+  const loggedInUserId = loggedUserDetails?.docs[0]?.id;
   const [membersWorkspaces, membersWorkspacesLoading, membersWorkspacesError] =
     useCollection(
       loggedUserDetails &&
         db.collection("users").doc(loggedInUserId).collection("workspaces")
     );
 
-  const addWorkspace = () => {
-    const workspaceName = prompt("please enter the workspace name");
-
+  const addWorkspace = async (workspaceName) => {
     if (workspaceName) {
-      db.collection("workspaces").add({
+      const addedWorkspace = await db.collection("workspaces").add({
         name: workspaceName,
         admin: user.uid,
       });
+
+      return addedWorkspace;
     }
   };
 
@@ -39,6 +44,16 @@ export const useWorkspace = (workspaceId) => {
         id: workspaceDetails.id,
         name: workspaceDetails.data().name,
     })
+  }
+
+  const addInvitedEmailToWorkspace = async (id, memberMail) => {
+    const foundUser = await db.collection('workspaces').doc(id).collection('invited_users').where('email', '==', memberMail).get();
+
+    if (foundUser.empty && memberMail !== user.email) {
+        db.collection('workspaces').doc(id).collection('invited_users').add({
+            email: memberMail,
+        })
+    }
   }
 
   return {
@@ -50,5 +65,6 @@ export const useWorkspace = (workspaceId) => {
     addWorkspace,
     workspaceDetails,
     addWorkspaceToUsersWorkspaces,
+    addInvitedEmailToWorkspace,
   };
 };

@@ -6,6 +6,7 @@ import { useParams, useLocation, Navigate } from "react-router-dom";
 import { useWorkspace } from "../hooks/useWorkspace";
 import Button from "../components/Button";
 import { useUser } from "../hooks/useUser";
+import LoadingScreen from "./LoadingScreen";
 
 function WorkspaceInviteScreen() {
   const { id } = useParams();
@@ -33,7 +34,7 @@ function WorkspaceInviteScreen() {
   };
 
   if (invitedUserLoading) {
-    return <div>loading...</div>
+    return <LoadingScreen />
   }
 
   if (invitedUser?.docs.length === 0) {

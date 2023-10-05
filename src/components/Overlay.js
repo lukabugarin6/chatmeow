@@ -16,7 +16,7 @@ export default Overlay;
 
 const OverlayStyled = styled.div`
   width: 100%;
-  max-width: ${props => props.maxWidth}px;
+  max-width: ${(props) => props.maxWidth}px;
   min-height: 400px;
   display: flex;
   flex-direction: column;
